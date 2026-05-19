@@ -28,8 +28,12 @@ def handler(event: dict, context) -> dict:
         return {"statusCode": 404, "headers": CORS, "body": "Not found"}
 
     url = ALLOWED[key]
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=20) as resp:
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": "audio/mpeg,audio/*;q=0.9,*/*;q=0.8",
+        "Accept-Encoding": "identity",
+    })
+    with urllib.request.urlopen(req, timeout=28) as resp:
         data = resp.read()
 
     encoded = base64.b64encode(data).decode("utf-8")
@@ -38,7 +42,8 @@ def handler(event: dict, context) -> dict:
         "headers": {
             **CORS,
             "Content-Type": "audio/mpeg",
-            "Cache-Control": "public, max-age=86400",
+            "Cache-Control": "public, max-age=3600",
+            "Content-Length": str(len(data)),
         },
         "body": encoded,
         "isBase64Encoded": True,

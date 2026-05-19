@@ -98,11 +98,30 @@ export default function Index() {
 
   const playSlide = (idx: number) => {
     if (!audioRef.current) audioRef.current = new Audio();
-    audioRef.current.pause();
-    audioRef.current.src = TRACKS[idx];
-    audioRef.current.volume = 0.65;
-    audioRef.current.loop = true;
-    audioRef.current.play().catch(() => {});
+    const audio = audioRef.current;
+    audio.pause();
+    audio.src = "";
+    audio.load();
+    audio.src = TRACKS[idx];
+    audio.volume = 0.65;
+    audio.loop = true;
+    audio.preload = "auto";
+
+    const onCanPlay = () => {
+      audio.play().catch(() => {});
+      audio.removeEventListener("canplay", onCanPlay);
+    };
+    const onError = () => {
+      audio.removeEventListener("error", onError);
+      // retry once after 1s
+      setTimeout(() => {
+        audio.load();
+        audio.play().catch(() => {});
+      }, 1000);
+    };
+    audio.addEventListener("canplay", onCanPlay);
+    audio.addEventListener("error", onError);
+    audio.load();
   };
 
   const goTo = (idx: number) => {
