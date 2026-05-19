@@ -105,12 +105,10 @@ export default function Index() {
     audioRef.current.play().catch(() => {});
   };
 
-  const goTo = (idx: number, stopAudio = false) => {
-    if (stopAudio && audioRef.current) audioRef.current.pause();
+  const goTo = (idx: number) => {
     setPrevSlide(slide);
     setSlide(idx);
-    if (!stopAudio) playSlide(idx);
-    else setTimeout(() => playSlide(idx), 50);
+    playSlide(idx);
   };
 
   const handleStart = () => {
@@ -340,7 +338,7 @@ export default function Index() {
           </div>
 
           <button
-            onClick={() => goTo(2, true)}
+            onClick={() => goTo(2)}
             className="w-full py-4 rounded-full font-semibold text-sm transition-all active:scale-95"
             style={{
               background: "#a78bfa",
@@ -384,7 +382,7 @@ export default function Index() {
           </div>
 
           <button
-            onClick={() => goTo(3, true)}
+            onClick={() => goTo(3)}
             className="w-full py-4 rounded-full font-semibold text-sm transition-all active:scale-95"
             style={{
               background: "#34d399",
