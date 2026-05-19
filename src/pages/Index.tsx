@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 
+const PROXY = "https://functions.poehali.dev/ae15bb8a-3b34-4eb7-82d9-2e472bb4b6bf";
 const TRACKS = [
-  "https://files.catbox.moe/57i2o0.mp3",
-  "https://files.catbox.moe/wwxsvw.mp3",
-  "https://files.catbox.moe/k4hb46.mp3",
-  "https://files.catbox.moe/whlrnp.mp3",
-  "https://files.catbox.moe/pqkvab.mp3",
+  `${PROXY}?track=track1`,
+  `${PROXY}?track=track2`,
+  `${PROXY}?track=track3`,
+  `${PROXY}?track=track4`,
+  `${PROXY}?track=track5`,
 ];
 
 function useCountdown(target: Date) {
